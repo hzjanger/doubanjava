@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzj.bookshop.mapper.UserMapper">
+
+    <!--添加用户-->
+    <insert id="addUser" parameterType="com.hzj.bookshop.bean.User">
+        INSERT INTO user(user_account, user_password, user_name, user_email, activated, code_url)
+        values(#{user_account}, #{user_password}, #{user_name}, #{user_email}, #{activated}, #{code_url})
+    </insert>
+
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="int">
+        DELETE
+        FROM user
+        WHERE user_id = #{user_id}
+    </delete>
+
+    <!--查找用户id， 通过账户和密码查找-->
+    <select id="getUserByPasswordAndAccount" parameterType="com.hzj.bookshop.bean.User" resultType="int">
+        SELECT user_id
+        FROM user
+        WHERE user_account = #{user_account} AND user_password = #{user_password}
+    </select>
+
+    <!--查找用户的信息, 用过用户的主键查找-->
+    <select id="getUserByUserId" parameterType="int" resultType="com.hzj.bookshop.bean.User">
+        SELECT user_id, user_account, user_name, user_imgurl, user_email
+        FROM user
+        WHERE user_id = #{user_id}
+    </select>
+
+    <!--修改用户信息, 不包括密码-->
+    <update id="updateUser" parameterType="com.hzj.bookshop.bean.User">
+        UPDATE user
+        SET user_name = #{user_name}, user_imgurl = #{user_imgUrl}, user_email = #{user_email}
+        WHERE user_id = #{user_id}
+    </update>
+
+</mapper>

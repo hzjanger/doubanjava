@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzj.bookshop.mapper.BookCollectionMapper">
+    
+    <!--添加收藏-->
+    <insert id="addBookCollection" parameterType="com.hzj.bookshop.bean.BookCollection">
+        INSERT INTO book_collection(ISBN, user_id, book_status_type, short_note, command_gradue, command_time)
+        VALUE (#{ISBN}, #{user_id}, #{book_status_type}, #{short_note}, #{command_gradue}, #{command_time})
+    </insert>
+    <!--删除收藏-->
+    <delete id="deleteByUserIdAndISBN" parameterType="com.hzj.bookshop.bean.BookCollection">
+        DELETE
+        FROM book_collection
+        WHERE user_id = #{user_id} AND ISBN = #{ISBN}
+    </delete>
+
+    <!--查找收藏-->
+    <select id="findByUserIdAndISBN" parameterType="com.hzj.bookshop.bean.BookCollection" resultMap="collection_book">
+        SELECT bc.ISBN, bc.user_id, bc.book_status_type, bc.short_note, bc.command_gradue, bc.command_time, b.book_name, b.book_author
+        FROM book_collection bc, book b
+        WHERE bc.ISBN = #{ISBN} AND bc.user_id = #{user_id} AND bc.ISBN = b.ISBN
+    </select>
+    <!---->
+    <resultMap id="collection_book" type="com.hzj.bookshop.bean.BookCollection">
+        <id property="ISBN" column="ISBN"/>
+        <id property="user_id" column="user_id"/>
+        <result property="book_status_type" column="book_status_type"/>
+        <result property="short_note" column="short_note"/>
+        <result property="command_gradue" column="command_gradue"/>
+        <result property="command_time" column="command_time"/>
+        <association property="book" javaType="com.hzj.bookshop.bean.Book">
+            <result property="book_name" column="book_name"/>
+            <result property="book_author" column="book_author"/>
+        </association>
+    </resultMap>
+    <!--修改收藏-->
+    <update id="updateBookCollection" parameterType="com.hzj.bookshop.bean.BookCollection">
+        UPDATE book_collection
+        SET book_status_type = #{book_status_type}, short_note = #{short_note}, command_time = #{command_time}, command_gradue = #{command_gradue}
+        WHERE ISBN = #{ISBN} AND user_id = #{user_id}
+     </update>
+</mapper>

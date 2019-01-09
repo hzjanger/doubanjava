@@ -37,5 +37,4 @@
         SET user_name = #{user_name}, user_imgurl = #{user_imgUrl}, user_email = #{user_email}
         WHERE user_id = #{user_id}
     </update>
-
 </mapper>

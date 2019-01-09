@@ -46,7 +46,7 @@ public class BookNoteController {
      * @param bookNote
      */
     @PostMapping("/updateNote")
-    public void updateNote(BookNote bookNote) {
+    public void updateNote(@RequestBody BookNote bookNote) {
         bookNoteService.updateNote(bookNote);
 
     }

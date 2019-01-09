@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzj.bookshop.mapper.BookNoteMapper">
+
+    <!--添加笔记-->
+    <insert id="addNote" parameterType="com.hzj.bookshop.bean.BookNote">
+        INSERT INTO book_note(user_id, ISBN, begain_page, book_chapter, note_value, note_title, end_page, createTime, noteHtml)
+        VALUES (#{user_id}, #{ISBN}, #{begain_page}, #{book_chapter}, #{note_value}, #{note_title}, #{end_page}, #{createTime}, #{noteHtml})
+    </insert>
+
+
+    <!--删除笔记-->
+    <delete id="deleteNote" parameterType="com.hzj.bookshop.bean.BookNote">
+        DELETE
+        FROM book_note
+        WHERE user_id = #{user_id} AND ISBN = #{ISBN} AND note_title = #{note_title}
+    </delete>
+
+    <!--通过用户id查找用户笔记-->
+    <select id="findByUserId" parameterType="int" resultType="com.hzj.bookshop.bean.BookNote">
+        SELECT user_id, ISBN, begain_page, book_chapter, note_value, note_title, end_page, createTime, noteHtml, noteId
+        FROM book_note
+        WHERE user_id = #{user_id}
+    </select>
+
+    <!--通过isbn， user_id, note_title查找收藏书籍信息-->
+    <select id="findOneNote" parameterType="com.hzj.bookshop.bean.BookNote" resultType="com.hzj.bookshop.bean.BookNote">
+        SELECT user_id, ISBN, begain_page, book_chapter, note_value, note_title, end_page, createTime, noteHtml, noteId
+        FROM book_note
+        WHERE user_id = #{user_id} AND ISBN = #{ISBN} AND note_title = #{note_title};
+    </select>
+
+    <!--查找用户收藏的书籍, 通过收藏书籍的主键-->
+    <select id="findNoteByNoteId" parameterType="int" resultType="com.hzj.bookshop.bean.BookNote">
+        SELECT noteId, user_id, ISBN, begain_page, book_chapter, note_value, note_title, end_page, createTime, noteHtml
+        FROM book_note
+        WHERE noteId = #{noteId}
+    </select>
+
+    <!--更新收藏书籍信息-->
+    <update id="updateNote" parameterType="com.hzj.bookshop.bean.BookNote">
+        UPDATE book_note
+        SET begain_page = #{begain_page}, book_chapter = #{book_chapter}, note_value = #{note_value}, note_title = #{note_title}, end_page = #{end_page}, createTime = #{createTime}, noteHtml = #{noteHtml}
+        WHERE noteId = #{noteId}
+    </update>
+</mapper>

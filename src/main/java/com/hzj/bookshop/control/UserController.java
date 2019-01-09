@@ -31,13 +31,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public boolean login(@RequestBody User user) {
+    public Integer login(@RequestBody User user) {
 //        System.out.println(user);
         boolean flag = false;
-        if (userService.login(user) != 0) {
-            flag = true;
+        Integer userId = userService.login(user);
+        if ( userId == null) {
+            userId = 0;
         }
-        return flag;
+        return userId;
     }
 
     @GetMapping("/getUserByUserId")

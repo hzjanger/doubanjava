@@ -12,7 +12,6 @@ public class BookshopApplication {
 
     @Autowired
     private BookService bookService;
-
     public static void main(String[] args) {
         SpringApplication.run(BookshopApplication.class, args);
     }

@@ -1,5 +1,7 @@
 package com.hzj.bookshop.bean;
 
+import java.util.List;
+
 /**
  * 用户实体类
  */
@@ -41,10 +43,17 @@ public class User {
      */
     private Integer activated;
 
+    /**
+     * 一个用户收藏多本书籍
+     */
+    private List<Book> bookList;
+
     public User() {
     }
 
-    public User(Integer user_id, String user_account, String user_password, String user_name, String user_imgUrl, String user_email, String code_url, String email_login, Integer activated) {
+
+
+    public User(Integer user_id, String user_account, String user_password, String user_name, String user_imgUrl, String user_email, String code_url, String email_login, Integer activated, List<Book> bookList) {
         this.user_id = user_id;
         this.user_account = user_account;
         this.user_password = user_password;
@@ -54,6 +63,7 @@ public class User {
         this.code_url = code_url;
         this.email_login = email_login;
         this.activated = activated;
+        this.bookList = bookList;
     }
 
     public Integer getActivated() {
@@ -128,6 +138,14 @@ public class User {
         this.email_login = email_login;
     }
 
+    public List<Book> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -140,6 +158,7 @@ public class User {
                 ", code_url='" + code_url + '\'' +
                 ", email_login='" + email_login + '\'' +
                 ", activated=" + activated +
+                ", bookList=" + bookList +
                 '}';
     }
 }

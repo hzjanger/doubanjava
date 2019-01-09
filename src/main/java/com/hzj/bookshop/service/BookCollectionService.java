@@ -1,6 +1,8 @@
 package com.hzj.bookshop.service;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.hzj.bookshop.bean.BookCollection;
+import com.hzj.bookshop.bean.User;
 import com.hzj.bookshop.mapper.BookCollectionMapper;
 import com.hzj.bookshop.utlis.Jsonutils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class BookCollectionService {
@@ -20,10 +23,11 @@ public class BookCollectionService {
      * @param bookCollection
      */
     public void addBookCollection(BookCollection bookCollection) {
-        bookCollection.setCommand_time(new Date());
-
-        bookCollectionMapper.addBookCollection(bookCollection);
-
+        if (bookCollectionMapper.findByUserIdAndISBN(bookCollection) != null) {
+            bookCollectionMapper.updateBookCollection(bookCollection);
+        } else {
+            bookCollectionMapper.addBookCollection(bookCollection);
+        }
     }
 
     /**
@@ -39,11 +43,10 @@ public class BookCollectionService {
      * @param bookCollectionJson
      */
     public BookCollection findByUserIdAndISBN(String bookCollectionJson) {
-        BookCollection bookCollection = new BookCollection();
         System.out.println(bookCollectionJson);
+        BookCollection bookCollection = new BookCollection();
         bookCollection.setISBN(String.valueOf(Jsonutils.getValue(bookCollectionJson, "isbn", "string")));
         bookCollection.setUser_id((Integer) Jsonutils.getValue(bookCollectionJson, "user_id", "int"));
-        System.out.println(bookCollection);
         return bookCollectionMapper.findByUserIdAndISBN(bookCollection);
     }
 
@@ -54,5 +57,12 @@ public class BookCollectionService {
     public void updateBookCollection(BookCollection bookCollection) {
         bookCollection.setCommand_time(new Date());
         bookCollectionMapper.updateBookCollection(bookCollection);
+    }
+
+    public List<User> findCollectionBook(String collectionBookJson) {
+        BookCollection bookCollection = new BookCollection();
+        bookCollection.setBook_status_type(String.valueOf(Jsonutils.getValue(collectionBookJson, "book_status_type", "string")));
+        bookCollection.setUser_id((Integer) Jsonutils.getValue(collectionBookJson, "user_id", "int"));
+        return bookCollectionMapper.findCollectionBook(bookCollection);
     }
 }

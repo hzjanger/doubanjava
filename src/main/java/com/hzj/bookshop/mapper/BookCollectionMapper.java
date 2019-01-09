@@ -1,7 +1,10 @@
 package com.hzj.bookshop.mapper;
 
 import com.hzj.bookshop.bean.BookCollection;
+import com.hzj.bookshop.bean.User;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public interface BookCollectionMapper {
@@ -31,4 +34,11 @@ public interface BookCollectionMapper {
      * @param bookCollection
      */
     public void updateBookCollection(BookCollection bookCollection);
+
+    /**
+     * 查找用户收藏书籍
+     * @param bookCollection
+     * @return
+     */
+    public List<User> findCollectionBook(BookCollection bookCollection);
 }
